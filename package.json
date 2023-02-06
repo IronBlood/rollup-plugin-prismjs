@@ -1,0 +1,27 @@
+{
+	"name": "rollup-plugin-prismjs",
+	"version": "0.0.1",
+	"main": "src/index.js",
+	"type": "module",
+	"keywords": [
+		"rollup",
+		"prismjs",
+		"rollup-plugin-prismjs"
+	],
+	"scripts": {
+		"clean": "rm -rf dist/",
+		"test": "NODE_OPTIONS=--experimental-vm-modules npx jest --coverage"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"@types/jest": "^29.4.0",
+		"app-root-path": "^3.1.0",
+		"jest": "^29.4.1",
+		"prismjs": "^1.24.0",
+		"rollup": "^3.11.0"
+	},
+	"dependencies": {
+		"estree-walker": "^2.0.2",
+		"magic-string": "^0.27.0"
+	}
+}

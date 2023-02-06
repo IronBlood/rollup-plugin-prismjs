@@ -1,0 +1,8 @@
+{
+	"testEnvironment": "node",
+	"roots": [ "test" ],
+	"testMatch": [ "**/*.test.js" ],
+	"transform": {
+	}
+}
+
