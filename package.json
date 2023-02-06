@@ -10,6 +10,7 @@
 	],
 	"scripts": {
 		"clean": "rm -rf dist/",
+		"build": "npm run clean && rollup -c",
 		"test": "NODE_OPTIONS=--experimental-vm-modules npx jest --coverage"
 	},
 	"license": "MIT",
