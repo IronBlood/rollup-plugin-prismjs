@@ -5,8 +5,15 @@ const {
 	name,
 	version,
 } = ModuleInfo;
+import { createFilter } from '@rollup/pluginutils';
 
 const CORE = "'prismjs/components/prism-core'";
+
+/**
+ * @typedef { object } Filter
+ * @property { (id: unknown) => boolean } filter
+ * @property { (code: string) => string } pre_transform
+ */
 
 /**
  * @typedef  { object    } PrismOptions
@@ -18,20 +25,64 @@ const CORE = "'prismjs/components/prism-core'";
 
 /**
  * @param { PrismOptions } opts
+ * @param { Filter[] } filters
  * @returns { import("rollup").Plugin }
  */
-function BundlePrismjs(opts = {}) {
+function BundlePrismjs(opts = {}, filters) {
 	const sourceMap = opts.sourceMap !== false && opts.sourcemap !== false;
 
 	function isImportDeclaration(node) {
 		return node.type === "ImportDeclaration";
 	}
 
+	function isFunction(x) {
+		return typeof x === "function";
+	}
+
+	const DEFAULT_FILTER = {
+		filter: createFilter(/\.[jt]s$/),
+		pre_transform: code => code,
+	};
+
+	if (filters == null) {
+		filters = [ DEFAULT_FILTER ];
+	}
+
+	let is_valid_filter_array = true;
+	if (!Array.isArray(filters)) {
+		is_valid_filter_array = false;
+	}
+	for (let f of filters) {
+		if (!isFunction(f.filter) || !isFunction(f.pre_transform)) {
+			is_valid_filter_array = false;
+			break;
+		}
+	}
+
 	return {
 		name,
 		version,
 		transform(code, id) {
+			if (!is_valid_filter_array) {
+				this.error({
+					message: `${name}: the filters are not valid`,
+				});
+			}
+
 			let ast = null;
+			let match = false;
+			for (let f of filters) {
+				if (f.filter(id)) {
+					match = true;
+					code = f.pre_transform(code);
+					break;
+				}
+			}
+
+			if (!match) {
+				return null;
+			}
+
 			try {
 				ast = this.parse(code);
 			} catch (err) {
