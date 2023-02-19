@@ -1,7 +1,10 @@
 {
 	"name": "rollup-plugin-prismjs",
 	"version": "0.0.1",
-	"main": "src/index.js",
+	"main": "dist/index.js",
+	"files": [
+		"dist/**/*"
+	],
 	"type": "module",
 	"keywords": [
 		"rollup",
