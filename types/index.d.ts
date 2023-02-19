@@ -1,5 +1,10 @@
 import { Plugin } from "rollup";
 
+interface Filter {
+	filter: (id: unknown) => boolean;
+	pre_transform: (code: string) => string;
+}
+
 export interface PrismOptions {
 	languages?: string[] | "all";
 	plugins?:   string[];
@@ -7,5 +12,5 @@ export interface PrismOptions {
 	css:        boolean;
 }
 
-declare const BundlePrismjs: (opts: PrismOptions) => Plugin;
+declare const BundlePrismjs: (opts: PrismOptions, filters?: Filter[]) => Plugin;
 

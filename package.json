@@ -1,6 +1,6 @@
 {
 	"name": "rollup-plugin-prismjs",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"main": "dist/index.js",
 	"files": [
 		"dist/**/*",
@@ -44,6 +44,7 @@
 		"semantic-release": "^20.1.0"
 	},
 	"dependencies": {
+		"@rollup/pluginutils": "^5.0.2",
 		"estree-walker": "^2.0.2",
 		"magic-string": "^0.27.0"
 	}
